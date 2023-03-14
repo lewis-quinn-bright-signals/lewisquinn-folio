@@ -151,6 +151,25 @@
   background-clip: content-box;
 }
 
+/* Post Styles */
+/* .post-img{
+  width: 100% !important;
+  max-height: 30% !important;
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  position: relative !important;
+} */
+
+.container {  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . .";
+}
+
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
