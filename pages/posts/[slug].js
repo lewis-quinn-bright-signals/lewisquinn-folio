@@ -1,6 +1,7 @@
 import { createClient } from 'contentful'
 import Image from 'next/image'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import Skeleton from '../../components/Skeleton'
 
 
 const client = createClient({
@@ -22,7 +23,7 @@ export const getStaticPaths = async () => {
 
     return {
         paths,
-        fallback: false
+        fallback: true
     } 
 
 }
@@ -43,6 +44,8 @@ export async function getStaticProps({ params }) {
   
 
 export default function PostPage({ folioPost }){
+
+    if (!folioPost) return <Skeleton/>
     
     const { featuredImage, title, description, tags } = folioPost.fields
 
