@@ -35,7 +35,8 @@ export async function getStaticProps({ params }) {
     })
 
     return {
-        props: { folioPost: items[0] }
+        props: { folioPost: items[0] },
+        revailidate: 1
     }
     
 }

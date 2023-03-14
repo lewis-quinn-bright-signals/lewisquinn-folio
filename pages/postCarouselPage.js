@@ -26,8 +26,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      folioPosts: res.items,
-    }
+      folioPosts: res.items
+    },
+    revalidate: 1
   }
 }
 
