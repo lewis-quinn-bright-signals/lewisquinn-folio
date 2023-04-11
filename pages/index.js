@@ -2,11 +2,53 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import '../styles/Home.module.css'
+import Navbar from '../components/navbar'
+import { createClient } from 'contentful'
+import HomeSlide from '../components/Home/homeSlide'
+import Marquee from 'react-fast-marquee'
+import HomeMarqueeSlide from '../components/Home/homeMarqueeSlide'
+import HomePostList from '../components/FolioPosts/homePostList'
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, {Autoplay} from 'swiper';
+
+// Import Swiper styles
+import 'swiper/css';
+import Footer from '../components/footer'
+
+
+
+export async function getStaticProps() {
+
+  const client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_KEY,
+  })
+
+  const res = await client.getEntries({ content_type: "homeContent" })
+  const res2 = await client.getEntries({ content_type: "folioPost" })
+
+  return {
+    props: {
+      homeContents: res.items,
+      folioPosts: res2.items
+    },
+    revalidate: 1
+  }
+
+}
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+
+export default function Home({homeContents, folioPosts}) {
+
+  console.log(homeContents)
+
+  SwiperCore.use([Autoplay])
+
   return (
     <>
       <Head>
@@ -16,31 +58,88 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className=' bg-zinc-900 '>
-        <section className=' min-h-screen flex'>
-          <div className=' m-auto h-100  '>
-            <h1 className=' text-6xl text-white uppercase '>
-              Lewis Quinn 
-            </h1>
-            <h2 className=' text-3xl text-white mt-2 mb-8 uppercase '>
-              Front End Developer
-            </h2>
+        <Navbar/>
 
-            <button className=' bg-transparent uppercase text-sm text-white px-7 py-2 rounded-3xl border-solid border-2 border-white '>
-              <a href='/about'>
-                About
-              </a>
-            </button>
+        <main className=' bg-black '>
+          <section className=' min-h-fit flex'>
+            <div className=' m-auto min-h-full w-full'>
 
-            <button className=' bg-transparent uppercase text-sm text-white px-7 py-2 rounded-3xl border-solid border-2 border-white ml-4 '>
-              <Link href='/postCarouselPage'>
-                Contact
-              </Link>
-            </button>
+              <Swiper
+                    slidesPerView={1}
+                    loop={true}
+                //     autoplay={{
+                //         delay:2000
+                //   }}
+                >
+                <div>
+                  {homeContents.map(homeContent => (
+                    <SwiperSlide key={homeContent.sys.id}>
+                      <HomeSlide homeContent={homeContent}/>
+                    </SwiperSlide>
+                  ))}
+                </div> 
+              </Swiper>
 
+            </div>
+            
+          </section>
+        </main>
+
+        <div className=''>
+
+          <div className=" w-full h-fit flex bg-white z-50 relative px-14 xs:px-2 ">
+                <div className=" w-1/3 flex min-h-fit justify-start align-start p-6 m-0 xs:w-full ">
+                    <div className=" align-middle my-auto ">
+                        <h3 className=" text-black text-2xl uppercase justify-center align-middle my-auto w-full ">
+                            Clients
+                        </h3>
+
+                        <div>
+                            <Link href={'/'}>
+                                <button className=' flex text-black mx-auto capitalize text-xs justify-start text-left float-left m-0 p-0'>
+                                    see Projects
+                                </button>
+                            </Link>
+                        </div>
+                    </div> 
+                </div>
+
+                <div className=" w-2/3 flex xs:w-full ">
+                    <div className=" w-full relative py-0 justify-start align-middle leading-8 ">
+
+                        
+                            <Marquee
+                              gradient={false}
+                              speed={20}
+                            >
+
+                              {folioPosts.map(folioPost => (
+
+                                <HomeMarqueeSlide key={folioPost.sys.id} folioPost={folioPost}/>
+
+                              ))}
+
+                            </Marquee>
+                        
+                            
+                    </div>
+                </div>
           </div>
-        </section>
-      </main>
+
+        </div>
+
+        <div className=' w-full h-auto relative '>
+
+          {folioPosts.slice(0,4).map(folioPost => (
+
+            <HomePostList key={folioPost.sys.id} folioPost={folioPost}/>
+
+          ))}
+
+        </div>
+
+        <Footer/>
+      
     </>
   )
 }

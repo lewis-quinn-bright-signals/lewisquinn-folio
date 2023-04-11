@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function Slide({ folioPost }) {
 
-    const { title, slug, featuredImage, lineOne, lineTwo } = folioPost.fields
+    const { title, slug, featuredImage } = folioPost.fields
 
     return (
         <>
@@ -16,9 +16,11 @@ export default function Slide({ folioPost }) {
 
                     </div>
                     <div className=' flex w-2/12 xs:w-4/12 '>
-                        <button className="btn btn-circle btn-outline border-white mx-auto hover:bg-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:fill-current hover:text-white" fill="none" viewBox="0 0 24 24" stroke="white"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                        </button>
+                        <Link href={'/'}>
+                            <button className="btn btn-circle btn-outline border-white mx-auto hover:bg-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:fill-current hover:text-white" fill="none" viewBox="0 0 24 24" stroke="white"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                        </Link>
                     </div>
                     <div className=' flex w-5/12 xs:w-4/12 border-t-2 border-white rounded-full mt-5 '>
 
@@ -29,7 +31,7 @@ export default function Slide({ folioPost }) {
                     <div className=' grid px-14'>
                         <div  className=' title text-white mt-0 mb-auto relative z-50 pb-5 '>
                             <h1 className=' flex text-7xl xs:text-6xl uppercase font-bold mt-auto mb-0 !mr-auto !ml-0 float-left absolute w-full justify-start '>
-                                {lineOne}
+                                {/* {lineOne} */}
                             </h1>
                         </div>
 
@@ -50,7 +52,7 @@ export default function Slide({ folioPost }) {
                         
                         <div className=' title text-white mt-auto mb-auto relative z-50 '>
                             <h1 className=' flex text-7xl xs:text-6xl uppercase font-bold !-mt-14 xs:!-mt-12 mb-0 !mr-0 !ml-auto float-right absolute w-full justify-end '>
-                                {lineTwo}
+                                {/* {lineTwo} */}
                             </h1>
                         </div>
                     </div>
